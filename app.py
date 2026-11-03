@@ -45,14 +45,14 @@ snap = fdf[fdf.year == year_pick]
 # ---------- Bubble chart ----------
 st.subheader(f"GDP vs life expectancy, {year_pick}")
 if snap.empty:
-    st.info(f"No countries in the filtered set have data for {year_pick}. Move the upper year bound to a 5-year step (1952, 1957, ... 2007).")
+    st.info(f"No countries in the filtered set have data for {year_pick}. Pick a year that is a 5-year step (1952, 1957, ... 2007).")
 else:
     fig = px.scatter(
         snap, x="gdpPercap", y="lifeExp", size="pop", color="continent",
         hover_name="country", log_x=True,
         labels={"gdpPercap": "GDP per capita (US$, log)", "lifeExp": "Life expectancy (years)"},
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ---------- Trend over time ----------
 st.subheader("Trend over time")
@@ -66,7 +66,7 @@ if trend.empty:
 else:
     st.plotly_chart(
         px.line(trend, x="year", y=metric, color="country", markers=True),
-        use_container_width=True,
+        width="stretch",
     )
 
 # ---------- Top-N ranking ----------
@@ -78,12 +78,12 @@ else:
     top = snap.nlargest(n, metric)
     st.plotly_chart(
         px.bar(top, x=metric, y="country", orientation="h", color="continent"),
-        use_container_width=True,
+        width="stretch",
     )
 
 # ---------- Data table and download ----------
 st.subheader("Filtered data")
-st.dataframe(fdf, use_container_width=True)
+st.dataframe(fdf, width="stretch")
 st.download_button(
     "Download CSV",
     fdf.to_csv(index=False),
