@@ -83,8 +83,8 @@ else:
 
 # ---------- Data table and download ----------
 st.subheader("Filtered data")
-st.caption(f"Showing first 200 of {len(fdf)} rows. The download includes all filtered rows.")
-preview = fdf.head(200).copy()
+st.caption(f"Showing first 30 of {len(fdf)} rows. The download includes all filtered rows.")
+preview = fdf.head(30).copy()
 for col in ["country", "continent"]:
     preview[col] = preview[col].astype(str)
 st.dataframe(preview, hide_index=True)
