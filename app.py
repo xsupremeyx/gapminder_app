@@ -1,42 +1,42 @@
-# import streamlit as st
-# import pandas as pd
-# import plotly.express as px
+import streamlit as st
+import pandas as pd
+import plotly.express as px
 
-# st.set_page_config(page_title="Gapminder Explorer", layout="wide")
+st.set_page_config(page_title="Gapminder Explorer", layout="wide")
 
-# @st.cache_data
-# def load():
-#     return pd.read_csv("exp10_gapminder.csv")
+@st.cache_data
+def load():
+    return pd.read_csv("exp10_gapminder.csv")
 
-# df = load()
+df = load()
 
-# # ---------- Sidebar filters ----------
-# st.sidebar.header("Filters")
-# all_continents = sorted(df.continent.unique())
-# continents = st.sidebar.multiselect("Continent", all_continents, default=all_continents)
-# years = st.sidebar.slider("Year", int(df.year.min()), int(df.year.max()), (1952, 2007), step=5)
-# country_search = st.sidebar.text_input("Search country")
+# ---------- Sidebar filters ----------
+st.sidebar.header("Filters")
+all_continents = sorted(df.continent.unique())
+continents = st.sidebar.multiselect("Continent", all_continents, default=all_continents)
+years = st.sidebar.slider("Year", int(df.year.min()), int(df.year.max()), (1952, 2007), step=5)
+country_search = st.sidebar.text_input("Search country")
 
-# # base: continent + year filters only (drives country list and trend chart)
-# base = df[df.continent.isin(continents) & df.year.between(*years)]
+# base: continent + year filters only (drives country list and trend chart)
+base = df[df.continent.isin(continents) & df.year.between(*years)]
 
-# # fdf: base plus country search (drives KPIs, snapshot charts, table)
-# fdf = base
-# if country_search:
-#     fdf = base[base.country.str.contains(country_search, case=False)]
+# fdf: base plus country search (drives KPIs, snapshot charts, table)
+fdf = base
+if country_search:
+    fdf = base[base.country.str.contains(country_search, case=False)]
 
-# if fdf.empty:
-#     st.warning("No data matches the current filters. Select at least one continent, or change the year range or search.")
-#     st.stop()
+if fdf.empty:
+    st.warning("No data matches the current filters. Select at least one continent, or change the year range or search.")
+    st.stop()
 
-# # ---------- Header and KPI cards ----------
-# st.title("Gapminder World Development Explorer")
+# ---------- Header and KPI cards ----------
+st.title("Gapminder World Development Explorer")
 
-# c1, c2, c3, c4 = st.columns(4)
-# c1.metric("Countries", fdf.country.nunique())
-# c2.metric("Avg life expectancy", f"{fdf.lifeExp.mean():.1f} yrs")
-# c3.metric("Total population", f"{fdf['pop'].sum():,.0f}")
-# c4.metric("Median GDP per capita", f"${fdf.gdpPercap.median():,.0f}")
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("Countries", fdf.country.nunique())
+c2.metric("Avg life expectancy", f"{fdf.lifeExp.mean():.1f} yrs")
+c3.metric("Total population", f"{fdf['pop'].sum():,.0f}")
+c4.metric("Median GDP per capita", f"${fdf.gdpPercap.median():,.0f}")
 
 # # ---------- Snapshot year ----------
 # year_pick = years[1]          # upper bound of the year range
@@ -90,10 +90,3 @@
 #     "gapminder_filtered.csv",
 #     "text/csv",
 # )
-
-import streamlit as st
-import pandas as pd
-
-st.title("Data test")
-df = pd.read_csv("exp10_gapminder.csv")
-st.write(df.shape)
