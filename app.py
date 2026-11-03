@@ -38,21 +38,21 @@ c2.metric("Avg life expectancy", f"{fdf.lifeExp.mean():.1f} yrs")
 c3.metric("Total population", f"{fdf['pop'].sum():,.0f}")
 c4.metric("Median GDP per capita", f"${fdf.gdpPercap.median():,.0f}")
 
-# # ---------- Snapshot year ----------
-# year_pick = years[1]          # upper bound of the year range
-# snap = fdf[fdf.year == year_pick]
+# ---------- Snapshot year ----------
+year_pick = years[1]          # upper bound of the year range
+snap = fdf[fdf.year == year_pick]
 
-# # ---------- Bubble chart ----------
-# st.subheader(f"GDP vs life expectancy, {year_pick}")
-# if snap.empty:
-#     st.info(f"No countries in the filtered set have data for {year_pick}. Pick a year that is a 5-year step (1952, 1957, ... 2007).")
-# else:
-#     fig = px.scatter(
-#         snap, x="gdpPercap", y="lifeExp", size="pop", color="continent",
-#         hover_name="country", log_x=True,
-#         labels={"gdpPercap": "GDP per capita (US$, log)", "lifeExp": "Life expectancy (years)"},
-#     )
-#     st.plotly_chart(fig, width="stretch")
+# ---------- Bubble chart ----------
+st.subheader(f"GDP vs life expectancy, {year_pick}")
+if snap.empty:
+    st.info(f"No countries in the filtered set have data for {year_pick}. Pick a year that is a 5-year step (1952, 1957, ... 2007).")
+else:
+    fig = px.scatter(
+        snap, x="gdpPercap", y="lifeExp", size="pop", color="continent",
+        hover_name="country", log_x=True,
+        labels={"gdpPercap": "GDP per capita (US$, log)", "lifeExp": "Life expectancy (years)"},
+    )
+    st.plotly_chart(fig, width="stretch")
 
 # # ---------- Trend over time ----------
 # st.subheader("Trend over time")
