@@ -48,38 +48,45 @@ if snap.empty:
     st.info(f"No countries in the filtered set have data for {year_pick}. Pick a year that is a 5-year step (1952, 1957, ... 2007).")
 else:
     fig = px.scatter(
-        snap, x="gdpPercap", y="lifeExp", size="pop", color="continent",
-        hover_name="country", log_x=True,
-        labels={"gdpPercap": "GDP per capita (US$, log)", "lifeExp": "Life expectancy (years)"},
-    )
+    snap, x="gdpPercap", y="lifeExp", size="pop", color="continent",
+    hover_name="country", log_x=True, size_max=40,
+    render_mode="webgl",
+    labels={"gdpPercap": "GDP per capita (US$, log)", "lifeExp": "Life expectancy (years)"},
+)
     st.plotly_chart(fig, width="stretch")
 
 # ---------- Trend over time ----------
-st.subheader("Trend over time")
-metric = st.selectbox("Metric", ["lifeExp", "gdpPercap", "pop"])
-all_countries = sorted(base.country.unique())
-default_picks = [c for c in ["India", "China"] if c in all_countries]
-picked = st.multiselect("Countries", all_countries, default=default_picks)
-trend = base[base.country.isin(picked)]
-if trend.empty:
-    st.info("Pick at least one country to see its trend.")
-else:
-    st.plotly_chart(
-        px.line(trend, x="year", y=metric, color="country", markers=True),
-        width="stretch",
-    )
+@st.fragment
+def trend_section():
+    st.subheader("Trend over time")
+    metric = st.selectbox("Metric", ["lifeExp", "gdpPercap", "pop"])
+    all_countries = sorted(base.country.unique())
+    default_picks = [c for c in ["India", "China"] if c in all_countries]
+    picked = st.multiselect("Countries", all_countries, default=default_picks)
+    trend = base[base.country.isin(picked)]
+    if trend.empty:
+        st.info("Pick at least one country to see its trend.")
+    else:
+        st.plotly_chart(px.line(trend, x="year", y=metric, color="country", markers=True), width="stretch")
+
+trend_section()
 
 # ---------- Top-N ranking ----------
-st.subheader("Top N ranking")
-n = st.slider("N", 5, 20, 10)
-if snap.empty:
-    st.info("No ranking available for this year.")
-else:
-    top = snap.nlargest(n, metric)
-    st.plotly_chart(
-        px.bar(top, x=metric, y="country", orientation="h", color="continent"),
-        width="stretch",
-    )
+@st.fragment
+def topn_section():
+    st.subheader("Top N ranking")
+    n = st.slider("N", 5, 20, 10)
+    metric_top = st.selectbox("Ranking metric", ["lifeExp", "gdpPercap", "pop"], key="topn_metric")
+    if snap.empty:
+        st.info("No ranking available for this year.")
+    else:
+        top = snap.nlargest(n, metric_top)
+        st.plotly_chart(
+            px.bar(top, x=metric_top, y="country", orientation="h", color="continent"),
+            width="stretch",
+        )
+
+topn_section()
 
 # ---------- Data table and download ----------
 st.subheader("Filtered data")
