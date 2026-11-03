@@ -1,6 +1,6 @@
 # Gapminder World Development Explorer
 
-Live app: YOUR_STREAMLIT_URL
+Live app: [GapMinder App](https://gapminderapp-xsupremeyx.streamlit.app/)
 
 ## Features
 - Sidebar filters: continent multi-select, year range slider, country search
@@ -9,6 +9,12 @@ Live app: YOUR_STREAMLIT_URL
 - Trend lines: life expectancy, GDP per capita or population over 1952 to 2007 for chosen countries
 - Top-N ranking: bar chart of the top countries by a chosen metric for a chosen year
 - Filtered data table with CSV download
+
+## Screenshots
+![Full app](screenshots/app_full.png)
+![Trend lines](screenshots/trend.png)
+![Top-N ranking](screenshots/topn.png)
+![Repository](screenshots/repo.png)
 
 ## Run locally
 pip install -r requirements.txt
