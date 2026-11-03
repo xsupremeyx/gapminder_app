@@ -54,20 +54,20 @@ else:
     )
     st.plotly_chart(fig, width="stretch")
 
-# # ---------- Trend over time ----------
-# st.subheader("Trend over time")
-# metric = st.selectbox("Metric", ["lifeExp", "gdpPercap", "pop"])
-# all_countries = sorted(base.country.unique())
-# default_picks = [c for c in ["India", "China"] if c in all_countries]
-# picked = st.multiselect("Countries", all_countries, default=default_picks)
-# trend = base[base.country.isin(picked)]
-# if trend.empty:
-#     st.info("Pick at least one country to see its trend.")
-# else:
-#     st.plotly_chart(
-#         px.line(trend, x="year", y=metric, color="country", markers=True),
-#         width="stretch",
-#     )
+# ---------- Trend over time ----------
+st.subheader("Trend over time")
+metric = st.selectbox("Metric", ["lifeExp", "gdpPercap", "pop"])
+all_countries = sorted(base.country.unique())
+default_picks = [c for c in ["India", "China"] if c in all_countries]
+picked = st.multiselect("Countries", all_countries, default=default_picks)
+trend = base[base.country.isin(picked)]
+if trend.empty:
+    st.info("Pick at least one country to see its trend.")
+else:
+    st.plotly_chart(
+        px.line(trend, x="year", y=metric, color="country", markers=True),
+        width="stretch",
+    )
 
 # # ---------- Top-N ranking ----------
 # st.subheader("Top N ranking")
