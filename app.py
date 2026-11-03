@@ -81,12 +81,12 @@ else:
         width="stretch",
     )
 
-# # ---------- Data table and download ----------
-# st.subheader("Filtered data")
-# st.dataframe(fdf, width="stretch")
-# st.download_button(
-#     "Download CSV",
-#     fdf.to_csv(index=False),
-#     "gapminder_filtered.csv",
-#     "text/csv",
-# )
+# ---------- Data table and download ----------
+st.subheader("Filtered data")
+st.dataframe(fdf, width="stretch")
+st.download_button(
+    "Download CSV",
+    fdf.to_csv(index=False),
+    "gapminder_filtered.csv",
+    "text/csv",
+)
