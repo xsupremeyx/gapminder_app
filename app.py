@@ -69,17 +69,17 @@ else:
         width="stretch",
     )
 
-# # ---------- Top-N ranking ----------
-# st.subheader("Top N ranking")
-# n = st.slider("N", 5, 20, 10)
-# if snap.empty:
-#     st.info("No ranking available for this year.")
-# else:
-#     top = snap.nlargest(n, metric)
-#     st.plotly_chart(
-#         px.bar(top, x=metric, y="country", orientation="h", color="continent"),
-#         width="stretch",
-#     )
+# ---------- Top-N ranking ----------
+st.subheader("Top N ranking")
+n = st.slider("N", 5, 20, 10)
+if snap.empty:
+    st.info("No ranking available for this year.")
+else:
+    top = snap.nlargest(n, metric)
+    st.plotly_chart(
+        px.bar(top, x=metric, y="country", orientation="h", color="continent"),
+        width="stretch",
+    )
 
 # # ---------- Data table and download ----------
 # st.subheader("Filtered data")
